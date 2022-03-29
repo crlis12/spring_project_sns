@@ -20,9 +20,8 @@ public class PostController {
 	
 	@RequestMapping("/post_list_view")
 	public String postListView(Model model)	{
-		List<Post> postList = postBO.getPostList();
-		model.addAttribute("postList", postList);
+		model.addAttribute("viewName", "post/post_list");
 		
-		return "test/quiztest";
+		return "template/layout";
 	}
 }
