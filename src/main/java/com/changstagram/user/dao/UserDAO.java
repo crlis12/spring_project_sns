@@ -16,7 +16,7 @@ public interface UserDAO {
 			@Param("loginId") String loginId,
 			@Param("password") String password);
 	
-	//public User selectUserByUserId(int userId);
+	public User selectUserByUserId(int userId);
 	
 	
 	// 회원가입

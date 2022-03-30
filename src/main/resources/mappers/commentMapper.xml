@@ -22,18 +22,17 @@
 		)
 	</insert>
 	
-	<select id="selectCommentListByPostId" parameterType="integer" resultType="com.changstagram.comment.model.CommentView">
-		SELECT `comment`
+	<select id="selectCommentListByPostId" parameterType="integer" resultType="com.changstagram.comment.model.Comment">
+		SELECT
 			`id`
-			, `userId`
-			, `postId`
-			, `content`
-			, `createdAt`
-			, `updatedAt`
+			,`postId`
+			,`userId`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
 		FROM
 			`comment`
 		WHERE
-			`id` = #{postId}
-			
+			`postId` = #{postId}
 	</select>
 </mapper>

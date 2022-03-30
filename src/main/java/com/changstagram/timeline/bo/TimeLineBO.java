@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.changstagram.comment.bo.CommentBO;
 import com.changstagram.comment.model.CommentView;
@@ -11,7 +12,10 @@ import com.changstagram.post.bo.PostBO;
 import com.changstagram.post.model.Post;
 import com.changstagram.timeline.model.CardView;
 import com.changstagram.user.bo.UserBO;
+import com.changstagram.user.model.User;
 
+
+@Service
 public class TimeLineBO {
 	
 	@Autowired
@@ -24,7 +28,7 @@ public class TimeLineBO {
 	private CommentBO commentBO;
 	
 	// 타임라인 화면의 경우 비로그인일 떄도 보여져야 하므로 Integer userId
-	public List<CardView> generateCardViewList(Integer userId) {
+	public List<CardView> generateCardViewList() {
 		List<CardView> cardViewList = new ArrayList<>();
 		
 		// 글 List 가져온다.
@@ -36,8 +40,8 @@ public class TimeLineBO {
 			card.setPost(post);
 			
 			// 댓글들 정보
-			List<CommentView> commentList = commentBO.getCommentListByPostId(post.getId());
-			//card.setCommentList(commentList);
+			List<CommentView> commentList = commentBO.generateCommentViewList(post.getId());
+			card.setCommentList(commentList);
 			
 			cardViewList.add(card);
 			
@@ -45,8 +49,8 @@ public class TimeLineBO {
 			// 지금 좋아요 눌렀는지 여부
 			
 			// 글쓴이 정보  DB부하가 걸릴수 있으면 캐쉬를 활용
-			//User user = userBO.getUserByUserId(post.getUserId());
-			//card.setUser(user);
+			User user = userBO.getUserByUserId(post.getUserId());
+			card.setUser(user);
 		}
 		
 		return cardViewList;

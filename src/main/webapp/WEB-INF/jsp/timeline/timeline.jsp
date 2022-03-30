@@ -17,26 +17,43 @@
 		</div>
 		
 
-		<c:forEach items="${postList }" var="post">
+		<c:forEach items="${cardViewList }" var="cardView">
 		<div id="card" class="border border-3 mt-5">
 			<div class="userCardName ">
 				<span class="ml-3">
-					${loginId}
+					${cardView.user.loginId}(임시)
 				</span>
 			</div>
 			<div class="d-flex justify-content-center border border-3">
-				<img src="${post.imagePath}" width="300px" height="300px">
+				<img src="${cardView.post.imagePath}" width="300px" height="300px">
 			</div>
-			<div class="mt-2 ml-3">
-				<span><span class="font-weight-bold">글쓴이명:</span> ${post.content }</span>
+			<div class="mt-2 ml-3 d-flex align-items-center">
+				<span><span class="font-weight-bold">${cardView.user.loginId}</span> ${cardView.post.content}
+				<br> 
 			</div>
+			
+			<%-- 댓글 --%>
+			<div>
+			<hr>
+			<span class="ml-1 font-weight-bold">댓글</span>
+				</span>
+			</div>
+			<%-- 댓글이 있을때만 댓글이 보이게 --%>
+			<c:if test="${not empty cardView.commentList}">
+			<c:forEach items="${cardView.commentList}" var="commentView">
+			<div>
+				<span class="ml-3 font-weight-bold">${commentView.user.loginId}: </span>
+				<span>${commentView.comment.content } </span>
+			</div>
+			</c:forEach>
+			</c:if>
 			
 			<%--댓글 쓰기 --%>
 			<%-- 로그인 된 상태에서만 쓸 수 있다. --%>
 			<c:if test="${not empty userId }">
 			<div class="comment-write d-flex border-top mt-2">
-				<input type="text" id="comment${post.id}"class="form-control border-0" placeholder="댓글" >
-				<button type="button" class="commentBtn btn btn-light" data-post-id="${post.id}">게시</button>
+				<input type="text" id="comment${post.id}"class="form-control border-0" placeholder="댓글 달기" >
+				<button type="button" class="commentBtn btn btn-light" data-post-id="${cardView.post.id}">게시</button>
 			</div>
 			</c:if>
 		</div>
@@ -127,7 +144,7 @@
  		// 댓글 쓰기
  		 $('.commentBtn').on('click', function(){
  			let postId = $(this).data('post-id'); // 포스트 아이디 값을 가지고 온다.
- 			//alert(postId);
+ 			// alert(postId); 포스트 아이디 값 확인
  			
  			//let commentContent = $('#comment' + postId).val().trim();
  			// 댓들 내용 가지고 오기

@@ -36,8 +36,10 @@ public class TimelineController {
 		
 		List<Post> postList = postBO.getPostList();
 		
+		List<CardView> cardViewList = timelineBO.generateCardViewList();
+		
 		model.addAttribute("postList", postList);
-		List<CardView> cardViewList = timelineBO.generateCardViewList(); 
+		model.addAttribute("cardViewList", cardViewList);
 		model.addAttribute("viewName", "timeline/timeline");
 		return "template/layout";
 	}
