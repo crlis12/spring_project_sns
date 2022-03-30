@@ -99,6 +99,7 @@ public class UserRestController {
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("loginId", user.getLoginId());
 		session.setAttribute("userName", user.getName());
+		session.setAttribute("userEmail", user.getEmail());
 		
 		return result;
 	}

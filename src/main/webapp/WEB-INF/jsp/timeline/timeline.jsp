@@ -83,7 +83,7 @@
  			
  			//확장자 유효성 체크
  			if(fileArr.length < 2 || 
- 					(fileArr[fileArr.length - 1] != 'gif' && 
+ 					(fileArr[fileArr.length - 1] != 'gif' &&
  					fileArr[fileArr.length - 1] != 'png' &&
  					fileArr[fileArr.length - 1] != 'jpeg' &&
  					fileArr[fileArr.length - 1] != 'jpg')) {

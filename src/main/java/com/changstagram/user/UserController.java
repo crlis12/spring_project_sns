@@ -23,4 +23,11 @@ public class UserController {
 		return "template/layout";
 	}
 	
+	@RequestMapping("/user_info")
+	public String userInfo(Model model) {
+		model.addAttribute("viewName", "user/myuser_info");
+		
+		return "template/layout";
+	}
+	
 }

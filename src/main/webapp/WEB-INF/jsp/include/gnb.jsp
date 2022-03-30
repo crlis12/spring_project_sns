@@ -18,7 +18,7 @@
 		<div class="d-flex mt-3 mr-5">
 			<h5 class="mr-5">${loginId}</h5>
 			<h5 class="font-weight-bold text-white mr-5">
-				<a href="#">내 정보</a>
+				<a href="/user/user_info">내 정보</a>
 			</h5>
 			<h5 class="font-weight-bold text-white">
 				<a href="#">로그 아웃</a>
