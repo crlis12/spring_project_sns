@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,6 +73,13 @@ public class UserRestController {
 		return result;
 	}
 	
+	/**
+	 * 로그인
+	 * @param loginId
+	 * @param password
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/sign_in")
 	public Map<String, Object> userSignUp(
 			@RequestParam("loginId") String loginId,
@@ -101,6 +109,38 @@ public class UserRestController {
 		session.setAttribute("userName", user.getName());
 		session.setAttribute("userEmail", user.getEmail());
 		
+		return result;
+	}
+	
+	@PostMapping("/changePwd")
+	public Map<String, Object> userChangePwd(
+			@RequestParam("password") String password,
+			@RequestParam("newPassword") String newPassword,
+			HttpSession session) {
+		
+		// 비밀번호 해싱(암호화)
+		String encryptUtils = EncryptUtils.md5(password);
+		// 새로운 비밀번호 해싱(암호화)
+		String encryptUtilsNewPassword = EncryptUtils.md5(newPassword);
+		
+		
+		String userloginId = (String)session.getAttribute("loginId");
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		// DB select
+		// 파리미터값으로 넘어온 비밀번호가 맞는지 확인
+		User user = userBO.getUserByLoginIdAndPassword(userloginId, encryptUtils);
+		
+		// 유저 정보가 조회가 되면 비밀번호 변경
+		if(user != null) {
+			// 업데이트
+			userBO.upadateUser(userloginId, encryptUtilsNewPassword);
+			result.put("result", "success");
+		} else {
+			result.put("result", "error");
+			result.put("error_message", "현재 비밀번호를 다시 입력해주세요.");
+		}
 		return result;
 	}
 }

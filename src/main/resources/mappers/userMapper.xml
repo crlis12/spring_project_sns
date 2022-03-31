@@ -64,4 +64,12 @@
 		WHERE
 			`id` = #{userId}
 	</select>
+	
+	<update id="upadateUser" parameterType="map">
+		UPDATE `user`
+		SET
+			`password` = #{password}
+		WHERE
+			`loginId` = #{loginId}
+	</update>
  </mapper>

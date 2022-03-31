@@ -67,7 +67,7 @@
 		});
 		
 		
-		
+		// 비밀번호 변경 완료 버튼 클릭 시  
 		$("#changePwdComplete").on('click', function(){
 			// 현재 비밀번호
 			let currentPwd = $('#currentPwd').val().trim();
@@ -97,8 +97,35 @@
 				$('#checknewPwd').val("");
 				return;
 			} 
+		
+		
+		// 데이터들을 폼 태그로 변경
+		let formData = new FormData();
+		formData.append("password", currentPwd);
+		formData.append("newPassword", newPwd);
+		
+		 $.ajax({
+			type:"post"
+			, url: "/user/changePwd"
+			, data: formData
+			, processData: false	
+			, contentType: false
+			, success: function(data) {
+				if(data.result == "success"){
+					alert("비밀번호가 변경되었습니다.");
+					location.href = "/user/sign_in_view";
+				} else {
+					alert(data.error_message );
+					$('#currentPwd').val("");
+					$('#newPwd').val("");
+					$('#checknewPwd').val("");
+				}
+			}
+			, error: function(jqXHR, textStatus, errorThrown) { // 에러를 세부적으로 찍어준다
+ 					let errorMsg = jqXHR.responseJSON.status;
+ 					alert(errorMsg + ":" + textStatus);
+ 			}
 		});
-		
-		
 	});
+});
 </script>
