@@ -100,6 +100,7 @@ public class UserRestController {
 		} else {
 			result.put("result", "error");
 			result.put("errorMessage", "존재하지 않는 사용자 입니다.");
+			return result;
 		}
 		
 		// 세션에 로그인 정보 저장(로그인 상태 유지)어디서든지 사용가능
@@ -112,6 +113,13 @@ public class UserRestController {
 		return result;
 	}
 	
+	/**
+	 * 비밀번호 변경
+	 * @param password
+	 * @param newPassword
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/changePwd")
 	public Map<String, Object> userChangePwd(
 			@RequestParam("password") String password,
@@ -120,10 +128,11 @@ public class UserRestController {
 		
 		// 비밀번호 해싱(암호화)
 		String encryptUtils = EncryptUtils.md5(password);
+		
 		// 새로운 비밀번호 해싱(암호화)
 		String encryptUtilsNewPassword = EncryptUtils.md5(newPassword);
 		
-		
+		// 현재 로그인 정보
 		String userloginId = (String)session.getAttribute("loginId");
 		
 		Map<String, Object> result = new HashMap<>();

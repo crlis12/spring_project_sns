@@ -52,4 +52,9 @@ public class CommentBO {
 		
 		return resultList;
 	}
+	
+	public int deleteCommentsByPostId(int postId) {
+		
+		return commentDAO.deleteCommentsByPostId(postId);
+	}
 }

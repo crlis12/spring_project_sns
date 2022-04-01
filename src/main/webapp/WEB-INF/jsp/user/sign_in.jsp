@@ -60,7 +60,8 @@
 				if(data.result == "success"){
 					location.href = "/timeline/timeline_view";
 				} else {
-					alert(data.errorMessage)
+					alert(data.errorMessage);
+					location.reload();
 				}
 				
 			});

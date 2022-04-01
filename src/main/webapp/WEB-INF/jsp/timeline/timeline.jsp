@@ -19,10 +19,14 @@
 
 		<c:forEach items="${cardViewList }" var="cardView">
 		<div id="card" class="border border-3 mt-5">
-			<div class="userCardName ">
+			<div class="userCardName d-flex justify-content-between">
 				<span class="ml-3">
-					${cardView.user.loginId}(임시)
+					${cardView.user.loginId}
 				</span>
+				<%-- 글쓴이와 로그인 된 사용자가 일치할 경우 삭제버튼 노출	 --%>
+				<c:if test="${cardView.user.id eq userId }">
+				<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${cardView.post.id }">이미지 삭제</a>
+				</c:if>
 			</div>
 			<div class="d-flex justify-content-center border border-3">
 				<img src="${cardView.post.imagePath}" width="300px" height="300px">
@@ -63,6 +67,22 @@
 		
 		
 	</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade " id="moreModal">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      	<div class="my-3">
+      		<a href="#" id="postDeleteBtn" class="d-block">삭제하기</a>
+      	</div>
+      	<hr>
+      	<div class="my-3">
+      		<a href="#" class="d-block" data-dismiss="modal">취소</a>
+      	</div>
+    </div>
+  </div>
 </div>
 
  <script>
@@ -180,5 +200,37 @@
  	
  	});
  	
+ 	// 카드에서 더보기(...) 클릭할 때 삭제 될 글번호를 모달에 넣어준다.
+ 	$('.more-btn').on('click', function(){
+ 		let postId = $(this).data("post-id");
+ 		// alert(postId);
+ 		
+ 		$('#moreModal').data("post-id", postId);	//data-post-id="1"
+ 		
+ 		// 모달 창 안에 있는 `삭제하기` 글자 클릭
+ 		$('#moreModal #postDeleteBtn').on('click', function(e){
+ 			e.preventDefault();
+ 			
+ 			let postId = $("#moreModal").data("post-id");
+ 			//alert(postId);
+ 			
+ 			$.ajax({
+ 				type:"delete"
+ 				, url: "/post/delete"
+ 				, data: {"postId":postId}
+ 				, success: function(data){
+ 					if(data.result == "success"){
+ 						alert("삭제 되었습니다.");
+ 						location.reload();
+ 					} else {
+ 						alert(data.errormessage);
+ 					}
+ 				}
+ 				, error: function(e) {
+ 					alert("삭제하는데 실패했습니다. 관리자에게 문의해주세요.");
+ 				}
+ 			})
+ 		});
+ 	});
  	
  </script>
